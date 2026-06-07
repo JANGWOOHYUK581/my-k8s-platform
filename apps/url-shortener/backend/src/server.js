@@ -59,7 +59,7 @@ app.post("/api/shorten", (req, res) => {
   res.status(201).json({
     code,
     originalUrl: url,
-    shortUrl: `${baseUrl}/${code}`
+    shortUrl: `${baseUrl}/r/${code}`
   });
 });
 
@@ -72,7 +72,7 @@ app.get("/api/urls", (req, res) => {
   res.status(200).json(urls);
 });
 
-app.get("/:code", (req, res) => {
+app.get("/r/:code", (req, res) => {
   const { code } = req.params;
   const data = urlStore.get(code);
 
