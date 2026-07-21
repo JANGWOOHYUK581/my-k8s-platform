@@ -1,0 +1,42 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: url-shortener-ingress
+  namespace: url-shortener
+  labels:
+    app.kubernetes.io/name: url-shortener
+    app.kubernetes.io/part-of: home-k8s-platform
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: url.k3s.local
+      http:
+        paths:
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: url-shortener-backend
+                port:
+                  number: 3000
+          - path: /healthz
+            pathType: Prefix
+            backend:
+              service:
+                name: url-shortener-backend
+                port:
+                  number: 3000
+          - path: /r
+            pathType: Prefix
+            backend:
+              service:
+                name: url-shortener-backend
+                port:
+                  number: 3000
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: url-shortener-frontend
+                port:
+                  number: 80

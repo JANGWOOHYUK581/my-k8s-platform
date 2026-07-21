@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: url-shortener-backend
+  namespace: url-shortener
+  labels:
+    app: url-shortener-backend
+    app.kubernetes.io/name: url-shortener-backend
+    app.kubernetes.io/part-of: home-k8s-platform
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: url-shortener-backend
+  template:
+    metadata:
+      labels:
+        app: url-shortener-backend
+        app.kubernetes.io/name: url-shortener-backend
+        app.kubernetes.io/part-of: home-k8s-platform
+    spec:
+      containers:
+        - name: backend
+          image: localhost:5000/url-shortener-backend:0.1.1
+          imagePullPolicy: Always
+          ports:
+            - name: http
+              containerPort: 3000
+          env:
+            - name: PORT
+              value: "3000"
+            - name: BASE_URL
+              value: "http://url.k3s.local"
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: 50m
+              memory: 64Mi
+            limits:
+              cpu: 300m
+              memory: 256Mi
