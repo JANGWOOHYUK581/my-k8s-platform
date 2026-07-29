@@ -145,3 +145,27 @@ sudo apt install -y git tree
 ### Result
 
 apt lock이 해제된 후 필요한 패키지 설치를 계속 진행할 수 있었습니다.
+
+## Kubernetes Incident Reports
+
+The following documents describe Kubernetes failure reproduction, troubleshooting, and recovery tests performed in this homelab environment.
+
+### Incident Report List
+
+| Scenario | Document |
+|---|---|
+| Backend Pod deletion and automatic recovery | [backend-pod-recovery.md](incident-reports/backend-pod-recovery.md) |
+| ImagePullBackOff due to invalid image tag | [imagepullbackoff-recovery.md](incident-reports/imagepullbackoff-recovery.md) |
+| readinessProbe failure with READY 0/1 | [readiness-probe-failure.md](incident-reports/readiness-probe-failure.md) |
+| CrashLoopBackOff caused by process exit | [crashloopbackoff-recovery.md](incident-reports/crashloopbackoff-recovery.md) |
+
+### Troubleshooting Focus
+
+These reports focus on practical Kubernetes operation patterns:
+
+- Checking Pod status with `kubectl get pods`
+- Analyzing Pod events with `kubectl describe pod`
+- Reviewing application logs with `kubectl logs`
+- Validating Service Endpoints and EndpointSlices
+- Confirming recovery with rollout status and health check URLs
+

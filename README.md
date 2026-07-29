@@ -234,3 +234,28 @@ source ~/.bashrc
 - Prometheus / Grafana 모니터링 구성
 - Loki / Promtail 로그 수집 구성
 - 장애 시나리오 테스트 및 문서화
+
+## Operations & Incident Reports
+
+This project includes hands-on Kubernetes operation scenarios, failure reproduction tests, and recovery documentation.
+
+### Runbooks
+
+- [URL Shortener Operations Runbook](docs/runbooks/url-shortener-operations.md)
+- [Local Registry Runbook](docs/runbooks/local-registry.md)
+
+### Incident Reports
+
+- [Backend Pod Recovery Test](docs/incident-reports/backend-pod-recovery.md)
+- [ImagePullBackOff Recovery Test](docs/incident-reports/imagepullbackoff-recovery.md)
+- [readinessProbe Failure Recovery Test](docs/incident-reports/readiness-probe-failure.md)
+- [CrashLoopBackOff Recovery Test](docs/incident-reports/crashloopbackoff-recovery.md)
+
+### Covered Scenarios
+
+- Pod deletion and automatic recovery
+- ImagePullBackOff due to invalid image tag
+- readinessProbe failure and Service Endpoint exclusion
+- CrashLoopBackOff caused by process exit
+- Service health check through Ingress
+
