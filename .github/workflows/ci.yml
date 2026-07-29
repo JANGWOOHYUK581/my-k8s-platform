@@ -15,6 +15,15 @@ on:
       - ".github/workflows/ci.yml"
   workflow_dispatch:
 
+permissions:
+  contents: read
+  packages: write
+
+env:
+  REGISTRY: ghcr.io
+  BACKEND_IMAGE: url-shortener-backend
+  FRONTEND_IMAGE: url-shortener-frontend
+
 jobs:
   backend-ci:
     name: Backend CI
@@ -78,30 +87,61 @@ jobs:
       - name: Build frontend
         run: npm run build
 
-  docker-build:
-    name: Docker Build
+  docker-build-and-push:
+    name: Docker Build and Push
     runs-on: ubuntu-latest
     needs:
       - backend-ci
       - frontend-ci
 
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
 
+      - name: Set lowercase image owner
+        run: |
+          IMAGE_OWNER=$(echo "${GITHUB_REPOSITORY_OWNER}" | tr '[:upper:]' '[:lower:]')
+          echo "IMAGE_OWNER=${IMAGE_OWNER}" >> "$GITHUB_ENV"
+          echo "Image owner: ${IMAGE_OWNER}"
+
+      - name: Login to GitHub Container Registry
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login "$REGISTRY" \
+            -u "${{ github.actor }}" \
+            --password-stdin
+
       - name: Build backend Docker image
         run: |
           docker build \
-            -t url-shortener-backend:ci \
+            --label org.opencontainers.image.source="https://github.com/${{ github.repository }}" \
+            -t "$REGISTRY/$IMAGE_OWNER/$BACKEND_IMAGE:${{ github.sha }}" \
+            -t "$REGISTRY/$IMAGE_OWNER/$BACKEND_IMAGE:latest" \
             apps/url-shortener/backend
 
       - name: Build frontend Docker image
         run: |
           docker build \
             --build-arg VITE_API_BASE=http://url.k3s.local \
-            -t url-shortener-frontend:ci \
+            --label org.opencontainers.image.source="https://github.com/${{ github.repository }}" \
+            -t "$REGISTRY/$IMAGE_OWNER/$FRONTEND_IMAGE:${{ github.sha }}" \
+            -t "$REGISTRY/$IMAGE_OWNER/$FRONTEND_IMAGE:latest" \
             apps/url-shortener/frontend
 
-      - name: List built Docker images
+      - name: Push backend Docker image
         run: |
-          docker images | grep url-shortener
+          docker push "$REGISTRY/$IMAGE_OWNER/$BACKEND_IMAGE:${{ github.sha }}"
+          docker push "$REGISTRY/$IMAGE_OWNER/$BACKEND_IMAGE:latest"
+
+      - name: Push frontend Docker image
+        run: |
+          docker push "$REGISTRY/$IMAGE_OWNER/$FRONTEND_IMAGE:${{ github.sha }}"
+          docker push "$REGISTRY/$IMAGE_OWNER/$FRONTEND_IMAGE:latest"
+
+      - name: List pushed image names
+        run: |
+          echo "$REGISTRY/$IMAGE_OWNER/$BACKEND_IMAGE:${{ github.sha }}"
+          echo "$REGISTRY/$IMAGE_OWNER/$BACKEND_IMAGE:latest"
+          echo "$REGISTRY/$IMAGE_OWNER/$FRONTEND_IMAGE:${{ github.sha }}"
+          echo "$REGISTRY/$IMAGE_OWNER/$FRONTEND_IMAGE:latest"
