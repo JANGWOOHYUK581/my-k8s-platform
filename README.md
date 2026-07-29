@@ -261,3 +261,25 @@ This project includes hands-on Kubernetes operation scenarios, failure reproduct
 - CrashLoopBackOff caused by process exit
 - Service health check through Ingress
 
+
+## CI/CD Automation
+
+This project includes a GitHub Actions based CI/CD pipeline for the URL Shortener application.
+
+### Implemented automation
+
+- Backend CI with Node.js dependency validation
+- Frontend CI with production build validation
+- Docker image build validation
+- GitHub Container Registry image publishing
+- GitHub Actions status badge in README
+
+### Published container images
+
+- `ghcr.io/jangwoohyuk581/url-shortener-backend`
+- `ghcr.io/jangwoohyuk581/url-shortener-frontend`
+
+For details, see:
+
+- [CI/CD Pipeline Documentation](docs/cicd-pipeline.md)
+
