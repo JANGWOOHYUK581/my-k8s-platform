@@ -1,5 +1,7 @@
 # Home Kubernetes DevOps Platform
 
+[![URL Shortener CI](https://github.com/JANGWOOHYUK581/my-k8s-platform/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/JANGWOOHYUK581/my-k8s-platform/actions/workflows/ci.yml)
+
 개인 서비스를 안정적으로 운영하기 위한 Homelab 기반 Kubernetes DevOps 플랫폼입니다.
 
 본 프로젝트는 집 PC의 VMware 환경에서 Ubuntu Server VM을 구성하고, K3s 기반 단일 노드 Kubernetes 클러스터를 구축한 뒤 Ingress, GitOps, 모니터링, 로깅, 장애 대응 문서화를 단계적으로 구성하는 것을 목표로 합니다.
