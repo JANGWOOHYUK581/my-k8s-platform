@@ -282,4 +282,5 @@ This project includes a GitHub Actions based CI/CD pipeline for the URL Shortene
 For details, see:
 
 - [CI/CD Pipeline Documentation](docs/cicd-pipeline.md)
+- [GHCR Image Migration](docs/ghcr-migration.md)
 
