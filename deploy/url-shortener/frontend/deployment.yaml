@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: localhost:5000/url-shortener-frontend:0.1.0
+          image: ghcr.io/jangwoohyuk581/url-shortener-frontend:latest
           imagePullPolicy: Always
           ports:
             - name: http

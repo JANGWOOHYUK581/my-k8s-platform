@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: localhost:5000/url-shortener-backend:0.1.1
+          image: ghcr.io/jangwoohyuk581/url-shortener-backend:latest
           imagePullPolicy: Always
           ports:
             - name: http
