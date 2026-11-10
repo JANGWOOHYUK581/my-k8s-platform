@@ -283,4 +283,5 @@ For details, see:
 
 - [CI/CD Pipeline Documentation](docs/cicd-pipeline.md)
 - [GHCR Image Migration](docs/ghcr-migration.md)
+- [Argo CD GitOps Deployment](docs/argocd-gitops.md)
 
