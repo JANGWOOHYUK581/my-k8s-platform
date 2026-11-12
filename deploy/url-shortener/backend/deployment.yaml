@@ -1,6 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  annotations:
+    opsnote.example.com/change-id: "step43-gitops-test"
   name: url-shortener-backend
   namespace: url-shortener
   labels:
